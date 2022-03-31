@@ -1,3 +1,5 @@
+import os
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
@@ -6,6 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 
+from spotify import settings
+from spotify.settings import BASE_DIR
 from tracks.forms import AlbumForm
 from tracks.models import Album
 
@@ -40,3 +44,14 @@ def api_add_album(request):
             return JsonResponse({'result': 'success'})
         else:
             return JsonResponse({'result': 'error', 'errors': form.errors, 'form': form.data})
+
+
+def cover(request, id):
+    return JsonResponse({'cover': settings.SITE_URL + '/media/covers/' + str(id) + '.jpg'})
+
+
+def song(request, id):
+    song = settings.SITE_URL + '/media/songs/' + str(id) + '.mp3'
+    context = {'song': song}
+    return render(request, "test/song.html", context)
+
