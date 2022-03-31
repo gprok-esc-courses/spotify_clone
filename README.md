@@ -17,3 +17,6 @@ This is a student project.
 4. Create a page to display all artists
 5. Create a form add song
 6. Create a page to display all songs
+
+Also:
+Research: JWT with Django in order to implement it in the next session
