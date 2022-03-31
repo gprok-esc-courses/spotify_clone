@@ -18,10 +18,14 @@ from django.urls import path
 from django.conf.urls import include
 from django.views.generic.base import TemplateView
 
+import tracks.views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("tracks.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('test/add/album', tracks.views.add_album),
+    path('test/api/add/album', tracks.views.api_add_album),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     # path('api/login', tracks.views.login),
     # path('api/search', tracks.views.search),
