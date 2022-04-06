@@ -1,4 +1,4 @@
-import { useUserState } from "../../../context/TaskContext";
+import { useUserState } from "../../../context/Context";
 
 const Profile: React.FC = () => {
   const { isLoggedIn, user } = useUserState();

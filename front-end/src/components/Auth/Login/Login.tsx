@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useTaskDispatch, useUserDispatch } from "../../../context/TaskContext";
+import { useUserDispatch } from "../../../context/Context";
 import { IUserInfoContext, usersDispatchContext } from "../../../Model/models";
 import { Button } from "../../button/Button.component";
-import { getTasks, loginAPI } from "../../../API/Api";
+import { loginAPI } from "../../../API/Api";
 import Logo from "../../../images/logo.png";
 import "../Auth.css";
 
@@ -12,9 +12,7 @@ const Login: React.FC = () => {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  // After logIn create get request to get (if any) tasks
-  const setTodoDispatch = useTaskDispatch();
-  const taskDispatch: usersDispatchContext = useUserDispatch();
+  const userDispatch: usersDispatchContext = useUserDispatch();
 
   // Email handler
   const onEmailChange = (e: React.BaseSyntheticEvent): void => {
@@ -39,11 +37,9 @@ const Login: React.FC = () => {
           username: data["username"],
           token: data["token"],
         };
-        taskDispatch({ type: "SET_USER", user: user });
-        taskDispatch({ type: "SET_IS_LOGGED_IN", isLoggedIn: true });
-
-        //Get if any tasks from server
-        getTasks(user, setTodoDispatch);
+        userDispatch({ type: "SET_USER", user: user });
+        userDispatch({ type: "SET_IS_LOGGED_IN", isLoggedIn: true });
+        // After login, navigate home
         navigate("/home");
       }
     } catch (error) {

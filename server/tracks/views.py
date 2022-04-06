@@ -8,8 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 
-from spotify import settings
-from spotify.settings import BASE_DIR
+from server import settings
+from server.settings import BASE_DIR
 from tracks.forms import AlbumForm
 from tracks.models import Album
 

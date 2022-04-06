@@ -1,6 +1,5 @@
 import React from "react";
-import TaskForm from "../../Tasks/TaskForm/TaskForm";
-import { useUserState } from "../../../context/TaskContext";
+import { useUserState } from "../../../context/Context";
 
 const Home: React.FC = () => {
   const { isLoggedIn } = useUserState();
@@ -8,7 +7,7 @@ const Home: React.FC = () => {
   if (isLoggedIn) {
     return (
       <div>
-        <TaskForm />
+        <h1>Home</h1>
       </div>
     );
   } else {

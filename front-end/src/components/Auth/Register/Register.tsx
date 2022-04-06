@@ -6,7 +6,7 @@ import {
   IUserInfoContext,
   usersDispatchContext,
 } from "../../../Model/models";
-import { useUserDispatch } from "../../../context/TaskContext";
+import { useUserDispatch } from "../../../context/Context";
 import { Button } from "../../button/Button.component";
 import { registerAPI } from "../../../API/Api";
 import Logo from "../../../images/logo.png";
@@ -39,7 +39,7 @@ const reducer = (state: IAuthCredentials, action: IAuthCredentials) => {
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const [internalState, formDispatch] = useReducer(reducer, initState);
-  const taskDispatch: usersDispatchContext = useUserDispatch();
+  const userDispatch: usersDispatchContext = useUserDispatch();
 
   // Email handler
   const onEmailChange = (e: React.BaseSyntheticEvent): void => {
@@ -80,8 +80,8 @@ const Register: React.FC = () => {
           username: data["username"],
           token: data["token"],
         };
-        taskDispatch({ type: "SET_USER", user: user });
-        taskDispatch({ type: "SET_IS_LOGGED_IN", isLoggedIn: true });
+        userDispatch({ type: "SET_USER", user: user });
+        userDispatch({ type: "SET_IS_LOGGED_IN", isLoggedIn: true });
         navigate("/home");
       }
     } catch (error) {
