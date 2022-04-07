@@ -8,6 +8,7 @@ This is a student project.
 3. ```python manage.py migrate```
 4. ``` python manage.py createsuperuser```
 5. Create a ```media``` folder with ```covers``` and ```songs``` subfolders
+6. Install additional packages: ```djangorestframework django-cors-headers==3.11.0 djangorestframework-simplejwt==5.0.0 PyJWT==2.3.0``` and migrate again
 
 ### TODO
 
