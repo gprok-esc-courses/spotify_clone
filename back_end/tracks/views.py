@@ -8,8 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 
-from server import settings
-from server.settings import BASE_DIR
+from back_end import settings
+from back_end.settings import BASE_DIR
 from tracks.forms import AlbumForm
 from tracks.models import Album
 
