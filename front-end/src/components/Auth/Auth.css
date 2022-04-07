@@ -1,0 +1,29 @@
+.border_style{
+    border-width:2px !important;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: rgba(94, 109, 119, 0.21);
+}
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.password-icon {
+    padding-left: 25px;
+    background: url("../../images/password.png") no-repeat left;
+    background-color: white;
+    background-size: 25px;
+}
+.email-icon{
+    padding-left: 25px;
+    background: url("../../images/email.png") no-repeat left;
+    background-color: white;
+    background-size: 25px;
+}
+.user-icon{
+    padding-left: 25px;
+    background: url("../../images/username-icon.png") no-repeat left;
+    background-color: white;
+    background-size: 25px;
+}
