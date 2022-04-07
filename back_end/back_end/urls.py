@@ -30,6 +30,7 @@ urlpatterns = [
     path('test/api/add/album', tracks.views.api_add_album),
     path('test/api/cover/<int:id>', tracks.views.cover),
     path('test/song/<int:id>', tracks.views.song),
+    path('api/', include("api.urls")),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     # path('api/login', tracks.views.login),
     # path('api/search', tracks.views.search),

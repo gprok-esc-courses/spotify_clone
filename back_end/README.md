@@ -11,12 +11,8 @@ This is a student project.
 
 ### TODO
 
-1. Create a page /test/albums to display all albums
-2. Complete add album form to redirect to a page /test/albums
-3. Create a form to add Artist
-4. Create a page to display all artists
-5. Create a form add song
-6. Create a page to display all songs
+1. Create api to **search**
+2. Create api for **recommendations** 
+3. Can we send csrf token to React forms?
+4. Experiment with the api 
 
-Also:
-Research: JWT with Django in order to implement it in the next session
