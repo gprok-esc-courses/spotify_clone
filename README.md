@@ -8,7 +8,6 @@ This is a spotify clone college student project created with Django in back-end 
 
 ```
 $ cd ../client
-$ npm i @types/react-router-dom
 $ npm install update
 $ npm start
 ```
