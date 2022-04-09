@@ -10,7 +10,6 @@ const defaultState: StateInterface = {
   user: {
     username: undefined,
     token: undefined,
-    id: undefined,
   },
   isLoggedIn: false,
 };

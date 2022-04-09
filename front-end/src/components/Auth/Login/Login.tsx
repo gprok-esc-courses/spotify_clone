@@ -10,13 +10,13 @@ import "../Auth.css";
 const Login: React.FC = () => {
   const navigate: NavigateFunction = useNavigate();
 
-  const [email, setEmail] = useState<string>("");
+  const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const userDispatch: usersDispatchContext = useUserDispatch();
 
-  // Email handler
-  const onEmailChange = (e: React.BaseSyntheticEvent): void => {
-    setEmail(e.target.value);
+  // Username handler
+  const onUsernameChange = (e: React.BaseSyntheticEvent): void => {
+    setUserName(e.target.value);
   };
   // Password handler
   const onPasswordChange = (e: React.BaseSyntheticEvent): void => {
@@ -26,14 +26,14 @@ const Login: React.FC = () => {
   const handleInputs = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
     try {
-      const data = await loginAPI(email, password);
+      const data = await loginAPI(username, password);
       // Check the type of the data is returned, if is string, it contains a message which means error and display error
       // If data is not string, it contains user's information (token, id, email) and the login was successful
       if (typeof data === "string" || data instanceof String) {
         alert(data);
+        console.log(data);
       } else if (data) {
         const user: IUserInfoContext = {
-          id: data["id"],
           username: data["username"],
           token: data["token"],
         };
@@ -53,16 +53,16 @@ const Login: React.FC = () => {
         <img src={Logo} alt="Logo" className="rounded mx-auto d-block " />
       </div>
       <form onSubmit={handleInputs}>
-        <label htmlFor="email" className="control-label text">
-          <strong>Email:</strong>
+        <label htmlFor="username" className="control-label text">
+          <strong>Username:</strong>
         </label>
         <input
-          type="email"
+          type="text"
           className="form-control email-icon"
-          value={email}
-          id="email"
-          placeholder="name@example.com"
-          onChange={onEmailChange}
+          value={username}
+          id="username"
+          placeholder="Username"
+          onChange={onUsernameChange}
           autoComplete="on"
         />
         <br />
