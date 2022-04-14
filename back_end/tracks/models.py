@@ -24,3 +24,6 @@ class Song(models.Model):
     duration = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     artist = models.ForeignKey(Artist, on_delete=models.RESTRICT)
     album = models.ForeignKey(Album, on_delete=models.RESTRICT)
+
+    def __str__(self):
+        return self.title

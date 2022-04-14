@@ -26,3 +26,9 @@ Returns token(temporary until fixed)
 _**Requirements**_:
 Needs a **POST** submitted `Email` and `Password`
 ***
+
+```
+/api/register/
+```
+Register a new user.  
+**POST** to submit `username`, `email`, `password`, and `password2`
