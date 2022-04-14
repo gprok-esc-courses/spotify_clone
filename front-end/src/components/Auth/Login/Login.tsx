@@ -6,9 +6,12 @@ import { Button } from "../../button/Button.component";
 import { loginAPI } from "../../../API/Api";
 import Logo from "../../../images/logo.png";
 import "../Auth.css";
+import ErrorHandler from "../../ErrorHandler/ErrorHandler";
 
 const Login: React.FC = () => {
   const navigate: NavigateFunction = useNavigate();
+
+  const [errorMessage, setErrorMessage] = useState<any>();
 
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -30,8 +33,7 @@ const Login: React.FC = () => {
       // Check the type of the data is returned, if is string, it contains a message which means error and display error
       // If data is not string, it contains user's information (token, id, email) and the login was successful
       if (typeof data === "string" || data instanceof String) {
-        alert(data);
-        console.log(data);
+        setErrorMessage(data);
       } else if (data) {
         const user: IUserInfoContext = {
           username: data["username"],
@@ -49,6 +51,8 @@ const Login: React.FC = () => {
 
   return (
     <div className="container flex-column input-container w-50 p-3 border border_style">
+      {/* Display error if there is any */}
+
       <div>
         <img src={Logo} alt="Logo" className="rounded mx-auto d-block " />
       </div>
@@ -83,6 +87,10 @@ const Login: React.FC = () => {
           <Button text={"Submit"} />
         </div>
       </form>
+      {/* Display error if there is any */}
+      <div className={ErrorHandler(errorMessage)}>
+        <strong>{errorMessage}!</strong>
+      </div>
     </div>
   );
 };

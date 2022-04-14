@@ -16,8 +16,6 @@ export const loginAPI = async (
     });
     const data: IUserInfoContext = await response.json();
     if (response.ok) {
-      // TODO: Delete
-      console.log(data);
       return data;
     } else {
       return data.detail;

@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   EActionTypes,
@@ -11,6 +11,7 @@ import { Button } from "../../button/Button.component";
 import { registerAPI } from "../../../API/Api";
 import Logo from "../../../images/logo.png";
 import "../Auth.css";
+import ErrorHandler from "../../ErrorHandler/ErrorHandler";
 
 // Initial state for the user credentials
 const initState: IAuthCredentials = {
@@ -40,6 +41,7 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
   const [internalState, formDispatch] = useReducer(reducer, initState);
   const userDispatch: usersDispatchContext = useUserDispatch();
+  const [errorMessage, setErrorMessage] = useState<any>();
 
   // Email handler
   const onEmailChange = (e: React.BaseSyntheticEvent): void => {
@@ -73,7 +75,7 @@ const Register: React.FC = () => {
       // Check the type of the data is returned, if is string, it contains a message which means error and display error
       // If data is not string, it contains user's information (token, id, email) and the login was successful
       if (typeof data === "string" || data instanceof String) {
-        alert(data);
+        setErrorMessage(data);
       } else if (data) {
         const user: IUserInfoContext = {
           id: data["id"],
@@ -161,6 +163,10 @@ const Register: React.FC = () => {
       <Link to="/login" className="text flex-wrap link-light">
         Already a member?
       </Link>
+      {/* Display error if there is any */}
+      <div className={ErrorHandler(errorMessage)}>
+        <strong>{errorMessage}!</strong>
+      </div>
     </div>
   );
 };
