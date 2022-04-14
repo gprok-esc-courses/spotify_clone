@@ -2,15 +2,15 @@ import { IUserInfoContext } from "../Model/models";
 
 // API call to use when user wants to login
 export const loginAPI = async (
-  email: string,
+  username: string,
   password: string
 ): Promise<IUserInfoContext | string | null | undefined> => {
   try {
-    const response = await fetch("http://localhost:3001/users/login", {
+    const response = await fetch("http://127.0.0.1:8000/api/login/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: email,
+        username: username,
         password: password,
       }),
     });
@@ -18,7 +18,7 @@ export const loginAPI = async (
     if (response.ok) {
       return data;
     } else {
-      return data.message;
+      return data.detail;
     }
   } catch (error) {
     return null;
@@ -47,7 +47,7 @@ export const registerAPI = async (
     if (response.ok) {
       return data;
     } else {
-      return data.message;
+      return data.detail;
     }
   } catch (error) {
     return null;

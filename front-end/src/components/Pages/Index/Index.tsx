@@ -10,7 +10,7 @@ const Index: React.FC = () => {
       <div className={`d-flex justify-content-center ${styles.quotes}`}>
         <h2 className="lead">Listening is everything </h2>
       </div>
-      <div className="d-flex justify-content-center" style={{ margin: "7px" }}>
+      <div className={`d-flex justify-content-center ${styles.quotes}`}>
         <h2 className="blockquote">
           <em>Thousands songs and podcast to listen to.</em>
         </h2>

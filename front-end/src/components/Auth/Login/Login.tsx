@@ -6,17 +6,20 @@ import { Button } from "../../button/Button.component";
 import { loginAPI } from "../../../API/Api";
 import Logo from "../../../images/logo.png";
 import "../Auth.css";
+import ErrorHandler from "../../ErrorHandler/ErrorHandler";
 
 const Login: React.FC = () => {
   const navigate: NavigateFunction = useNavigate();
 
-  const [email, setEmail] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<any>();
+
+  const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const userDispatch: usersDispatchContext = useUserDispatch();
 
-  // Email handler
-  const onEmailChange = (e: React.BaseSyntheticEvent): void => {
-    setEmail(e.target.value);
+  // Username handler
+  const onUsernameChange = (e: React.BaseSyntheticEvent): void => {
+    setUserName(e.target.value);
   };
   // Password handler
   const onPasswordChange = (e: React.BaseSyntheticEvent): void => {
@@ -26,14 +29,13 @@ const Login: React.FC = () => {
   const handleInputs = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
     try {
-      const data = await loginAPI(email, password);
+      const data = await loginAPI(username, password);
       // Check the type of the data is returned, if is string, it contains a message which means error and display error
       // If data is not string, it contains user's information (token, id, email) and the login was successful
       if (typeof data === "string" || data instanceof String) {
-        alert(data);
+        setErrorMessage(data);
       } else if (data) {
         const user: IUserInfoContext = {
-          id: data["id"],
           username: data["username"],
           token: data["token"],
         };
@@ -49,20 +51,22 @@ const Login: React.FC = () => {
 
   return (
     <div className="container flex-column input-container w-50 p-3 border border_style">
+      {/* Display error if there is any */}
+
       <div>
         <img src={Logo} alt="Logo" className="rounded mx-auto d-block " />
       </div>
       <form onSubmit={handleInputs}>
-        <label htmlFor="email" className="control-label text">
-          <strong>Email:</strong>
+        <label htmlFor="username" className="control-label text">
+          <strong>Username:</strong>
         </label>
         <input
-          type="email"
+          type="text"
           className="form-control email-icon"
-          value={email}
-          id="email"
-          placeholder="name@example.com"
-          onChange={onEmailChange}
+          value={username}
+          id="username"
+          placeholder="Username"
+          onChange={onUsernameChange}
           autoComplete="on"
         />
         <br />
@@ -83,6 +87,10 @@ const Login: React.FC = () => {
           <Button text={"Submit"} />
         </div>
       </form>
+      {/* Display error if there is any */}
+      <div className={ErrorHandler(errorMessage)}>
+        <strong>{errorMessage}!</strong>
+      </div>
     </div>
   );
 };

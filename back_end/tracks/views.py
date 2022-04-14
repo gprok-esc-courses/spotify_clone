@@ -54,4 +54,3 @@ def song(request, id):
     song = settings.SITE_URL + '/media/songs/' + str(id) + '.mp3'
     context = {'song': song}
     return render(request, "test/song.html", context)
-
