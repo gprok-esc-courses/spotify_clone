@@ -7,5 +7,7 @@ urlpatterns = [
     path('test/', views.test_api),
     path('albums/', views.all_albums),
     path('search/album/', views.search_album),
+    path('search/artist/', views.search_artist),
+    path('search/song/', views.search_song),
     path('song/url/<int:id>', views.song_url)
 ]

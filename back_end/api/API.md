@@ -18,6 +18,11 @@ Returns albums matching the term.
 ***
 
 ```
+/api/search/artist
+```
+Needs a POST submitted search string (named: term)  
+Returns artist matching the term.
+```
 /api/login/
 ```
 

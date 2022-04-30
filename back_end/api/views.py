@@ -7,6 +7,8 @@ from rest_framework import status, generics
 from api.serializer import SpotifyTokenObtainPairSerializer, RegisterSerializer
 from back_end import settings
 from tracks.models import Album
+from tracks.models import Artist
+from tracks.models import Song
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
@@ -63,13 +65,29 @@ def search_album(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def search_artist(request):
-    pass
+    if request.method == 'POST':
+        term = request.POST.get('term')
+        print(term)
+        artists = Artist.objects.filter(name__icontains=term)
+        artists_list = list(artists.values())
+        return Response({'artists': artists_list}, status=status.HTTP_200_OK)
+    else:
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
-
+"""
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def search_song(request):
+    if request.method == 'POST':
+        term = request.POST.get('term')
+        print(term)
+        songs = Song.objects.filter(name__icontains=term)
+        songs_list = list(songs.values())
+        return Response({'songs': songs_list}, status=status.HTTP_200_OK)
+    else:
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
     pass
+"""
 
 
 @api_view(['GET'])
