@@ -74,20 +74,19 @@ def search_artist(request):
     else:
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
-"""
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def search_song(request):
     if request.method == 'POST':
         term = request.POST.get('term')
         print(term)
-        songs = Song.objects.filter(name__icontains=term)
+        songs = Song.objects.filter(title__icontains=term)
         songs_list = list(songs.values())
         return Response({'songs': songs_list}, status=status.HTTP_200_OK)
     else:
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
     pass
-"""
 
 
 @api_view(['GET'])
@@ -95,3 +94,5 @@ def search_song(request):
 def song_url(request, id):
     # Check if id is valid
     return Response({'url': settings.SITE_URL + '/media/songs/' + str(id) + '.mp3'}, status=status.HTTP_200_OK)
+
+

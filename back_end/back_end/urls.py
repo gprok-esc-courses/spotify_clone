@@ -33,7 +33,7 @@ urlpatterns = [
     path('api/', include("api.urls")),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     # path('api/login', tracks.views.login),
-    # path('api/search', tracks.views.search),
+    # path('api/search', api.views.search),
     # path('api/home', tracks.views.login),
     # path('api/song/{id}', tracks.views.login),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
