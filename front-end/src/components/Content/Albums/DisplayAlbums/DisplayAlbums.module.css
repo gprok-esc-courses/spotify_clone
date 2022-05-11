@@ -1,0 +1,12 @@
+.task_container {
+  background: #6e5a5a;
+  width: 20px;
+  margin: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: auto;
+  border-width: 2px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: #333533;
+}

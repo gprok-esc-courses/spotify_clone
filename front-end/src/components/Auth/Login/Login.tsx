@@ -1,13 +1,27 @@
 import { useState } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useUserDispatch } from "../../../context/Context";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import { useUserDispatch } from "../../../context/UserContext";
 import { IUserInfoContext, usersDispatchContext } from "../../../Model/models";
-import { Button } from "../../button/Button.component";
-import { loginAPI } from "../../../API/Api";
+import { fetchAllAlbumsAPI, loginAPI } from "../../../API/Api";
 import Logo from "../../../images/logo.png";
 import "../Auth.css";
+import {
+  PasswordInput,
+  Group,
+  Button,
+  Box,
+  TextInput,
+  Anchor,
+  Center,
+  Image,
+} from "@mantine/core";
+import { AlertComponent } from "../../AlertComponent/AlertComponent";
 import ErrorHandler from "../../ErrorHandler/ErrorHandler";
+import { useAlbumDispatch } from "../../../context/AlbumContext";
 
+interface IDefaultFormState extends IUserInfoContext {
+  password: string | undefined;
+}
 const Login: React.FC = () => {
   const navigate: NavigateFunction = useNavigate();
 
@@ -15,7 +29,10 @@ const Login: React.FC = () => {
 
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
   const userDispatch: usersDispatchContext = useUserDispatch();
+
+  const albumDispatch = useAlbumDispatch();
 
   // Username handler
   const onUsernameChange = (e: React.BaseSyntheticEvent): void => {
@@ -29,18 +46,23 @@ const Login: React.FC = () => {
   const handleInputs = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
     try {
-      const data = await loginAPI(username, password);
+      const loginApiData = await loginAPI(username, password);
       // Check the type of the data is returned, if is string, it contains a message which means error and display error
       // If data is not string, it contains user's information (token, id, email) and the login was successful
-      if (typeof data === "string" || data instanceof String) {
-        setErrorMessage(data);
-      } else if (data) {
+      if (typeof loginApiData === "string" || loginApiData instanceof String) {
+        setErrorMessage(loginApiData);
+      } else if (loginApiData) {
         const user: IUserInfoContext = {
-          username: data["username"],
-          token: data["token"],
+          username: loginApiData["username"],
+          token: loginApiData["access"],
         };
         userDispatch({ type: "SET_USER", user: user });
         userDispatch({ type: "SET_IS_LOGGED_IN", isLoggedIn: true });
+
+        // fetch and save to context all albums from server
+        const fetchAlbumApiData = await fetchAllAlbumsAPI(user);
+        albumDispatch({ type: "FETCH_ALL_ALBUMS", albums: fetchAlbumApiData["albums"] });
+        
         // After login, navigate home
         navigate("/home");
       }
@@ -50,48 +72,49 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="container flex-column input-container w-50 p-3 border border_style">
-      {/* Display error if there is any */}
-
-      <div>
-        <img src={Logo} alt="Logo" className="rounded mx-auto d-block " />
-      </div>
-      <form onSubmit={handleInputs}>
-        <label htmlFor="username" className="control-label text">
-          <strong>Username:</strong>
-        </label>
-        <input
-          type="text"
-          className="form-control email-icon"
+    <Box sx={{ maxWidth: 540 }} mx="auto" className="border">
+      <Center>
+        <Image radius="md" src={Logo} alt="Logo" />
+      </Center>
+      <h1 className="title">Log-In</h1>
+      <form
+        // values: current form values
+        onSubmit={handleInputs}
+      >
+        <TextInput
+          required
+          label="Username"
+          placeholder="John Smith"
           value={username}
-          id="username"
-          placeholder="Username"
           onChange={onUsernameChange}
-          autoComplete="on"
         />
-        <br />
-        <label htmlFor="password" className="control-label text">
-          <strong>Password:</strong>
-        </label>
-        <input
-          type="password"
-          value={password}
-          className="form-control password-icon"
-          id="password"
-          onChange={onPasswordChange}
+
+        <PasswordInput
+          required
+          label="Password"
           placeholder="Password"
+          value={password}
+          onChange={onPasswordChange}
           autoComplete="on"
         />
-        <br />
-        <div className="d-grid gap-2">
-          <Button text={"Submit"} />
-        </div>
+        <Group position="right" mt="md">
+          <Button color="green" type="submit">
+            Submit
+          </Button>
+        </Group>
+
+        {/*Display error message if any*/}
+        <AlertComponent
+          className={ErrorHandler(errorMessage)}
+          message={errorMessage}
+        />
       </form>
-      {/* Display error if there is any */}
-      <div className={ErrorHandler(errorMessage)}>
-        <strong>{errorMessage}!</strong>
-      </div>
-    </div>
+      <Anchor component={Link} to="/register" color={"indigo"}>
+        <em>
+          <u> Not a member?</u>
+        </em>
+      </Anchor>
+    </Box>
   );
 };
 export default Login;

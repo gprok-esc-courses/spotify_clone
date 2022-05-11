@@ -1,9 +1,11 @@
-import "./ErrorHandler.module.css";
-const ErrorHandler = (errorMessage: string | undefined) => {
+import { IUserInfoContext } from "../../Model/models";
+
+import styles from "./ErrorHandler.module.css";
+const ErrorHandler = (
+  errorMessage: string | IUserInfoContext | null | undefined
+) => {
   if (errorMessage === null || errorMessage === undefined) {
-    return `no_error`;
-  } else {
-    return `warningMessage alert alert-danger displayError alert-dismissible`;
+    return `${styles.no_error}`;
   }
 };
 

@@ -1,5 +1,8 @@
 import React from "react";
-import { useUserState } from "../../../context/Context";
+import { useUserState } from "../../../context/UserContext";
+import DisplayAlbums from "../../Content/Albums/DisplayAlbums/DisplayAlbums";
+import Search from "../../Content/Search/Search";
+import URLError from "../URLError/URLError";
 
 const Home: React.FC = () => {
   const { isLoggedIn } = useUserState();
@@ -7,14 +10,17 @@ const Home: React.FC = () => {
   if (isLoggedIn) {
     return (
       <div>
-        <h1>Home</h1>
+        <Search />
+        <DisplayAlbums />
       </div>
     );
   } else {
     return (
-      <div>
-        <h1> No Account found! Log-In/Register to proceed!</h1>
-      </div>
+      <URLError
+        navText="No Account found. To proceed, you must be logged-in!"
+        navigationPath="/login"
+        btnText="Login"
+      />
     );
   }
 };
