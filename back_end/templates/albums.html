@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Your Albums</h1>
+
+    {% for album in albums %}
+
+        <div>{{ album.name }}</div>
+
+    {% endfor %}
+{% endblock %}

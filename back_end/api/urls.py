@@ -9,5 +9,6 @@ urlpatterns = [
     path('search/album/', views.search_album),
     path('search/artist/', views.search_artist),
     path('search/song/', views.search_song),
-    path('song/url/<int:id>', views.song_url)
+    path('song/url/<int:id>', views.song_url),
+    path('cover/url/<int:id>', views.cover_url)
 ]

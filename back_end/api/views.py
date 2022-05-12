@@ -96,3 +96,12 @@ def song_url(request, id):
     return Response({'url': settings.SITE_URL + '/media/songs/' + str(id) + '.mp3'}, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def cover_url(request, id):
+    album = Album.objects.get(id=id)
+    if album.cover == "":
+        cover = "covers/default.png"
+    else:
+        cover = str(album.cover)
+    return Response({'url': settings.SITE_URL + '/media/' + cover }, status=status.HTTP_200_OK)

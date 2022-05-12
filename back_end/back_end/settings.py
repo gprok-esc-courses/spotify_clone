@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'tracks',
     'api',
+    'artist',
 ]
 
 MIDDLEWARE = [
