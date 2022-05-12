@@ -1,4 +1,5 @@
-import { IUserInfoContext } from "../Model/models";
+import { useUserState } from "../context/UserContext";
+import { IUserInfoContext, IAlbumInfoContext } from "../Model/models";
 
 // API call to use when user wants to login
 export const loginAPI = async (
@@ -48,6 +49,52 @@ export const registerAPI = async (
       return data;
     } else {
       return data.detail;
+    }
+  } catch (error) {
+    return null;
+  }
+};
+
+// API to fetch all albums from server
+export const fetchAllAlbumsAPI = async (user: IUserInfoContext) => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/albums/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    }
+  } catch (error) {
+    return null;
+  }
+};
+
+// API to search an album
+export const searchAlbumsAPI = async (
+  user: IUserInfoContext,
+  albumName: string
+) => {
+  try {
+    // Create a form-data request
+    const formDataVariable = new FormData();
+    formDataVariable.append("term", albumName);
+
+    let fetchHeaders = new Headers();
+    fetchHeaders.append("Authorization", `Bearer ${user.token}`);
+
+    const response = await fetch("http://127.0.0.1:8000/api/search/album/", {
+      method: "POST",
+      headers: fetchHeaders,
+      body: formDataVariable,
+    });
+    const searchedAlbumData = await response.json();
+    if (response.ok) {
+      return searchedAlbumData;
     }
   } catch (error) {
     return null;

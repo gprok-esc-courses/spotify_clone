@@ -52,6 +52,7 @@ def all_albums(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def search_album(request):
+    print(f"REQUEST {request.data}")
     if request.method == 'POST':
         term = request.POST.get('term')
         print(term)

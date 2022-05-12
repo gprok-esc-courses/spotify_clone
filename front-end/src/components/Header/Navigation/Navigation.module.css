@@ -1,9 +1,5 @@
 .bg {
-  /* background: linear-gradient(#973aa8, #f7aef8, #5cdb95); */
-  /* background: linear-gradient(#05386b, #973aa8, #f7aef8, #5cdb95); */
-  /* background-attachment: fixed; */
-  /* background-repeat: no-repeat; */
-  background-color: red;
+  background-color: transparent;
 }
 
 .space {

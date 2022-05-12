@@ -6,20 +6,13 @@ import {
   IUserInfoContext,
   usersDispatchContext,
 } from "../../../Model/models";
-import { useUserDispatch } from "../../../context/Context";
-import { Button } from "../../button/Button.component";
 import { registerAPI } from "../../../API/Api";
 import Logo from "../../../images/logo.png";
-import "../Auth.css";
-import ErrorHandler from "../../ErrorHandler/ErrorHandler";
+import { useForm } from "@mantine/form";
+import { PasswordInput, Group, Button, Box, TextInput } from "@mantine/core";
 
-// Initial state for the user credentials
-const initState: IAuthCredentials = {
-  email: undefined,
-  username: undefined,
-  password: undefined,
-  passwordRepeat: undefined,
-};
+import "../Auth.css";
+import { useUserDispatch } from "../../../context/UserContext";
 
 // Reducer to set credentials for the user
 const reducer = (state: IAuthCredentials, action: IAuthCredentials) => {
@@ -38,10 +31,18 @@ const reducer = (state: IAuthCredentials, action: IAuthCredentials) => {
 };
 
 const Register: React.FC = () => {
+  // Initial state for the user credentials
+  const initState: IAuthCredentials = {
+    email: undefined,
+    username: undefined,
+    password: undefined,
+    passwordRepeat: undefined,
+  };
+
   const navigate = useNavigate();
   const [internalState, formDispatch] = useReducer(reducer, initState);
+
   const userDispatch: usersDispatchContext = useUserDispatch();
-  const [errorMessage, setErrorMessage] = useState<any>();
 
   // Email handler
   const onEmailChange = (e: React.BaseSyntheticEvent): void => {
@@ -72,10 +73,11 @@ const Register: React.FC = () => {
         `${internalState.password}`,
         `${internalState.passwordRepeat}`
       );
+
       // Check the type of the data is returned, if is string, it contains a message which means error and display error
       // If data is not string, it contains user's information (token, id, email) and the login was successful
       if (typeof data === "string" || data instanceof String) {
-        setErrorMessage(data);
+        return null;
       } else if (data) {
         const user: IUserInfoContext = {
           id: data["id"],
@@ -90,84 +92,72 @@ const Register: React.FC = () => {
       console.warn(error);
     }
   };
+
+  const form = useForm({
+    // Set the initial value for the form
+    initialValues: {
+      email: "",
+      username: "",
+      password: "",
+      passwordRepeat: "",
+    },
+  });
   return (
-    <div className="container flex-column input-container w-50 p-3 border border_style">
+    <div className="container flex-column input-container border border_style">
       <div>
         <img src={Logo} alt="Logo" className="rounded mx-auto d-block " />
       </div>
 
       <h1 className="title">Register</h1>
-      <form onSubmit={handleInputs}>
-        <label htmlFor="email" className="control-label text">
-          <strong>Email:</strong>
-        </label>
-        <input
-          type="email"
-          value={initState.email}
-          className="form-control email-icon"
-          id="email"
-          placeholder="name@example.com"
-          onChange={onEmailChange}
-          required={true}
-          minLength={5}
-          autoComplete="on"
-        />
-        <br />
-        <label htmlFor="Username" className="control-label text">
-          <strong>Username: (optional)</strong>
-        </label>
-        <input
-          type="text"
-          value={initState.username}
-          className="form-control user-icon"
-          id="Username"
-          placeholder="John Smith"
-          onChange={onNameChange}
-          autoComplete="on"
-        />
-        <br />
-        <label htmlFor="password" className="control-label text">
-          <strong>Password:</strong>
-        </label>
-        <input
-          type="password"
-          value={initState.password}
-          className="form-control password-icon"
-          id="password"
-          placeholder="Password"
-          onChange={handlePassword}
-          required={true}
-          minLength={6}
-          autoComplete="on"
-        />
-        <br />
-        <label htmlFor="confirmPassword" className="control-label text">
-          <strong>Confirm Password:</strong>
-        </label>
-        <input
-          type="password"
-          value={initState.passwordRepeat}
-          className="form-control password-icon"
-          id="confirmPassword"
-          placeholder="Confirm Password"
-          onChange={handleConfirmPassword}
-          required={true}
-          minLength={6}
-          autoComplete="on"
-        />
-        <br />
-        <div className="d-grid gap-2">
-          <Button text={"Submit"} />
-        </div>
-      </form>
-      <Link to="/login" className="text flex-wrap link-light">
-        Already a member?
-      </Link>
-      {/* Display error if there is any */}
-      <div className={ErrorHandler(errorMessage)}>
-        <strong>{errorMessage}!</strong>
-      </div>
+      <Box sx={{ maxWidth: 340 }} mx="auto">
+        <form
+          // values: current form values
+          onSubmit={form.onSubmit((values) =>
+            registerAPI(
+              values.email,
+              values.username,
+              values.password,
+              values.passwordRepeat
+            )
+          )}
+        >
+          <TextInput
+            required
+            label="Email"
+            placeholder="your@email.com"
+            {...form.getInputProps("email")}
+          />
+
+          <PasswordInput
+            required
+            label="Password"
+            placeholder="Password"
+            {...form.getInputProps("password")}
+          />
+
+          <PasswordInput
+            required
+            mt="sm"
+            label="Confirm password"
+            placeholder="Confirm password"
+            {...form.getInputProps("passwordRepeat")}
+          />
+
+          <Group position="right" mt="md">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </form>
+      </Box>
     </div>
   );
 };
+
+/**
+ *       
+    <Link to="/login" className=" link flex-wrap text-primary ">
+        <em>
+          <u> Already a member?</u>
+        </em>
+      </Link>
+ */
 export default Register;

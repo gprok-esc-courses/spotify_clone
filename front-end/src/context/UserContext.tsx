@@ -1,6 +1,7 @@
 import React, { useContext, useReducer } from "react";
 import {
   usersDispatchContext,
+  IChildrenProvider,
   StateInterface,
   TUserAction,
 } from "../Model/models";
@@ -10,14 +11,10 @@ const defaultState: StateInterface = {
   user: {
     username: undefined,
     token: undefined,
+    id: undefined,
   },
   isLoggedIn: false,
 };
-
-// Interface for the TaskContextProvider children
-interface IChildrenProp {
-  children: React.ReactNode;
-}
 
 const UserStateContext = React.createContext<StateInterface | undefined>(
   undefined
@@ -30,7 +27,7 @@ const UserDispatchContext = React.createContext<
 // Reducer function
 const appReducer = (state: StateInterface, action: TUserAction) => {
   switch (action.type) {
-    case "SET_USER":
+    case "SET_USER":      
       return { ...state, user: action.user };
     case "SET_IS_LOGGED_IN":
       return { ...state, isLoggedIn: action.isLoggedIn };
@@ -41,7 +38,7 @@ const appReducer = (state: StateInterface, action: TUserAction) => {
   }
 };
 // Context Provider for the user
-const UserContextProvider = ({ children }: IChildrenProp) => {
+const UserContextProvider = ({ children }: IChildrenProvider) => {
   const [userState, userDispatch] = useReducer(appReducer, defaultState);
 
   return (
@@ -65,7 +62,7 @@ const useUserState = (): StateInterface => {
 const useUserDispatch = (): usersDispatchContext => {
   const context = useContext(UserDispatchContext);
   if (context === undefined) {
-    throw new Error("useTaskDispatch must be used within UserDispatchContext");
+    throw new Error("useUserDispatch must be used within UserDispatchContext");
   }
   return context;
 };

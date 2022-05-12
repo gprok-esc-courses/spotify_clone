@@ -1,8 +1,9 @@
+import { Center } from "@mantine/core";
 import Logo from "../../../images/logo.png";
 import styles from "./Index.module.css";
 const Index: React.FC = () => {
   return (
-    <div>
+    <Center>
       {/* container for the logo */}
       <div>
         <img src={Logo} alt="Logo" className="rounded mx-auto d-block " />
@@ -15,7 +16,7 @@ const Index: React.FC = () => {
           <em>Thousands songs and podcast to listen to.</em>
         </h2>
       </div>
-    </div>
+    </Center>
   );
 };
 
