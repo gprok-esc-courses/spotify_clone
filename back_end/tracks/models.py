@@ -26,7 +26,8 @@ class Song(models.Model):
     duration = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     artist = models.ForeignKey(Artist, on_delete=models.RESTRICT)
     album = models.ForeignKey(Album, on_delete=models.RESTRICT)
-    # add field song_file for mp3. FileField
+    audio_file = models.FileField(upload_to='songs', blank=True, null=True)
+
 
     def __str__(self):
         return self.title

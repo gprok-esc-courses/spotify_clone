@@ -24,7 +24,7 @@ import tracks.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("accounts/", include("tracks.urls")),
+    path('accounts/', include('tracks.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('test/add/album', tracks.views.add_album),
     path('test/api/add/album', tracks.views.api_add_album),
